@@ -24,10 +24,18 @@
 					$link.text(opts.link.closer);
 				}
 			});
-			if (opts.closeByDefault) {
+			var defaultHeight = $this.height();
+			var _minHeight = (function(){
+				var result = $this.height(opts.minHeight).height();
+				$this.height(defaultHeight);
+				return result;
+			})();
+			if (defaultHeight < _minHeight) {
+				opts.minHeight = defaultHeight;
+			} else if (opts.closeByDefault) {
 				$this.height(opts.minHeight);
+				$link.show();
 			}
-			$link.show();
 		});
 	};
 	// private function for debugging
