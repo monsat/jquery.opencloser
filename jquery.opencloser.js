@@ -9,7 +9,12 @@
 			var $this = $(this);
 			var id = $this.attr('id');
 			var $link = opts.$target || $('#' + id + opts.link.surfix);
-			heights[id] = $this.height();
+			var defaultHeight = heights[id] = $this.height();
+			var _minHeight = (function(){
+				var result = $this.height(opts.minHeight).height();
+				$this.height(defaultHeight);
+				return result;
+			})();
 			if (!$link.length) {
 				return;
 			}
@@ -24,12 +29,6 @@
 					$link.text(opts.link.closer);
 				}
 			});
-			var defaultHeight = $this.height();
-			var _minHeight = (function(){
-				var result = $this.height(opts.minHeight).height();
-				$this.height(defaultHeight);
-				return result;
-			})();
 			if (defaultHeight < _minHeight) {
 				opts.minHeight = defaultHeight;
 			} else if (opts.closeByDefault) {
